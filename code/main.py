@@ -1,5 +1,3 @@
-import numpy as np
-from os import listdir
 import get_dataset
 
 def main():

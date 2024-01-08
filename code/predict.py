@@ -20,7 +20,7 @@ if __name__ == '__main__':
     X_data[0] = img
 
     # Get model
-    model_file = open('Model/model.json', 'r')
+    model_file = open('../Model/model.json', 'r')
     model = model_file.read()
     model_file.close()
     model = model_from_json(model)

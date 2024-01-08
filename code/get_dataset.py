@@ -4,6 +4,7 @@ from skimage import io
 from skimage.transform import resize
 from sklearn.model_selection import train_test_split
 
+
 def get_img(data_path: str):
 
     # Getting image array from path:
@@ -17,10 +18,10 @@ def get_dataset(dataset_path: str = 'dataset'):
 
     # Getting all data from data path:
     try:
-        x_data = np.load('np_dataset/X_data.npy')
-        y_data = np.load('np_dataset/Y_data.npy')
+        x_data = np.load('../np_dataset/X_data.npy')
+        y_data = np.load('../np_dataset/Y_data.npy')
 
-    except OSError as e:
+    except OSError:
         labels = listdir(dataset_path)  # Geting labels
         print('Categories:\n', labels)
         len_data = 0
@@ -53,11 +54,11 @@ def get_dataset(dataset_path: str = 'dataset'):
 
         y_data = keras.utils.to_categorical(y_data)
 
-        if not os.path.exists('np_dataset/'):
-            os.makedirs('np_dataset/')
+        if not os.path.exists('../np_dataset/'):
+            os.makedirs('../np_dataset/')
 
-        np.save('np_dataset/X_data.npy', x_data)
-        np.save('np_dataset/Y_data.npy', y_data)
+        np.save('../np_dataset/X_data.npy', x_data)
+        np.save('../np_dataset/Y_data.npy', y_data)
 
     x_data /= 255.
     x_train, x_test, y_train, y_test = train_test_split(x_data, y_data, test_size=0.1, random_state=42)
