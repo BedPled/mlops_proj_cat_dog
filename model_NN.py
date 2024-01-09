@@ -1,14 +1,15 @@
 import os
 
+from keras import optimizers
 from keras.layers import Activation, Conv2D, Dense, Dropout, Flatten, MaxPooling2D
 from keras.models import Sequential
 
 
 def save_model(model):
-    if not os.path.exists("../Model/"):
-        os.makedirs("../Model/")
+    if not os.path.exists("Model/"):
+        os.makedirs("Model/")
     model_json = model.to_json()
-    with open("../Model/model.json", "w") as model_file:
+    with open("Model/model.json", "w") as model_file:
         model_file.write(model_json)
     # serialize weights to HDF5
     model.save_weights("Model/weights.h5")
@@ -16,7 +17,7 @@ def save_model(model):
     return
 
 
-def get_model(num_classes=2):
+def get_model(num_classes=2, learning_rate=1):
     model = Sequential()
 
     model.add(Conv2D(32, (3, 3), input_shape=(64, 64, 3)))
@@ -39,9 +40,10 @@ def get_model(num_classes=2):
     model.add(Activation("relu"))
     model.add(Dropout(0.5))
     model.add(Dense(num_classes))
-    model.add(Activation("softmax"))
+    model.add(Activation("sigmoid"))
 
-    model.compile(loss="categorical_crossentropy", optimizer="adadelta", metrics=["accuracy"])
+    opt = optimizers.Adadelta(learning_rate=learning_rate, rho=0.95)
+    model.compile(loss="binary_crossentropy", optimizer=opt, metrics=["accuracy"])
 
     return model
 
